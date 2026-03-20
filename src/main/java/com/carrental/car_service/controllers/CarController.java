@@ -39,14 +39,44 @@ public class CarController {
 
     // http://localhost:8080/cars/1
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Car>> findCar(
-            @PathVariable("id") Long id
-    ) {
+    public ResponseEntity<Optional<Car>> findCar(@PathVariable("id") Long id) {
         logger.info("/cars/" + id);
 
         var car = this.carService.findCarById(id);
 
         return ResponseEntity.ok(car);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> saveCar(@RequestBody Car car) {
+        logger.info("POST -> /cars/");
+
+        this.carService.saveCar(car);
+
+        return ResponseEntity.status(201).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateCar(
+            @PathVariable("id") Long id,
+            @RequestBody Car car
+    ) {
+
+        logger.info("PUT -> /cars/" + id);
+
+        this.carService.updateCar(car, id);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCar(@PathVariable("id") Long id) {
+
+        logger.info("DELETE -> /cars/" + id);
+
+        this.carService.delete(id);
+
+        return ResponseEntity.ok().build();
     }
 
 }
