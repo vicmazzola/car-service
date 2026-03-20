@@ -18,26 +18,55 @@ public class CarRepositoryImpl implements CarRepository {
 
     @Override
     public Optional<Car> findById(Long id) {
-        return Optional.empty();
+        return this.jdbcClient
+                .sql("SELECT * FROM cars WHERE id = :id")
+                .param("id", id)
+                .query(Car.class)
+                .optional();
     }
 
     @Override
     public List<Car> findAll(int size, int offset) {
-        return List.of();
+        return this.jdbcClient
+                .sql("SELECT * FROM cars LIMIT :size OFFSET :offset")
+                .param("size", size)
+                .param("offset", offset)
+                .query(Car.class)
+                .list();
     }
 
     @Override
     public Integer save(Car car) {
-        return 0;
+        return this.jdbcClient
+                .sql("INSERT INTO cars (brand, model, license_plate, year, color ,daily_price) VALUES (:brand, :model, :license_plate, :year, :color ,:daily_price)")
+                .param("brand", car.getBrand())
+                .param("model", car.getModel())
+                .param("license_plate", car.getLicensePlate())
+                .param("year", car.getYear())
+                .param("color", car.getColor())
+                .param("daily_price", car.getDailyPrice())
+                .update();
     }
 
     @Override
     public Integer update(Car car, Long id) {
-        return 0;
+        return this.jdbcClient
+                .sql("UPDATE cars SET brand = :brand, model = :model, license_plate = :license_plate, year = : year, color = :color, daily_price = :daily_price")
+                .param("id", id)
+                .param("brand", car.getBrand())
+                .param("model", car.getModel())
+                .param("license_plate", car.getLicensePlate())
+                .param("year", car.getYear())
+                .param("color", car.getColor())
+                .param("daily_price", car.getDailyPrice())
+                .update();
     }
 
     @Override
     public Integer delete(Long id) {
-        return 0;
+        return this.jdbcClient
+                .sql("DELETE FROM cars WHERE id = :id")
+                .param("id", id)
+                .update();
     }
 }
