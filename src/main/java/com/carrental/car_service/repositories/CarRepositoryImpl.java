@@ -38,11 +38,11 @@ public class CarRepositoryImpl implements CarRepository {
     @Override
     public Integer save(Car car) {
         return this.jdbcClient
-                .sql("INSERT INTO cars (brand, model, license_plate, year, color ,daily_price) VALUES (:brand, :model, :license_plate, :year, :color ,:daily_price)")
+                .sql("INSERT INTO cars (brand, model, license_plate, car_year, color ,daily_price) VALUES (:brand, :model, :license_plate, :car_year, :color ,:daily_price)")
                 .param("brand", car.getBrand())
                 .param("model", car.getModel())
                 .param("license_plate", car.getLicensePlate())
-                .param("year", car.getYear())
+                .param("car_year", car.getCarYear())
                 .param("color", car.getColor())
                 .param("daily_price", car.getDailyPrice())
                 .update();
@@ -51,12 +51,12 @@ public class CarRepositoryImpl implements CarRepository {
     @Override
     public Integer update(Car car, Long id) {
         return this.jdbcClient
-                .sql("UPDATE cars SET brand = :brand, model = :model, license_plate = :license_plate, year = : year, color = :color, daily_price = :daily_price")
+                .sql("UPDATE cars SET brand = :brand, model = :model, license_plate = :license_plate, car_year = : car_year, color = :color, daily_price = :daily_price")
                 .param("id", id)
                 .param("brand", car.getBrand())
                 .param("model", car.getModel())
                 .param("license_plate", car.getLicensePlate())
-                .param("year", car.getYear())
+                .param("car_year", car.getCarYear())
                 .param("color", car.getColor())
                 .param("daily_price", car.getDailyPrice())
                 .update();

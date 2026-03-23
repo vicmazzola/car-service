@@ -20,7 +20,7 @@ public class Car {
 
     private String licensePlate;
 
-    private int year;
+    private int carYear;
 
     private String color;
 
