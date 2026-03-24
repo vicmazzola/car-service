@@ -50,7 +50,7 @@ public class CarRepositoryImpl implements CarRepository {
     @Override
     public Integer update(Car car, Long id) {
         return this.jdbcClient
-                .sql("UPDATE cars SET brand = :brand, model = :model, car_year = :car_year, color = :color, daily_price = :daily_price")
+                .sql("UPDATE cars SET brand = :brand, model = :model, car_year = :car_year, color = :color, daily_price = :daily_price WHERE id = :id")
                 .param("id", id)
                 .param("brand", car.getBrand())
                 .param("model", car.getModel())
