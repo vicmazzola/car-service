@@ -18,8 +18,6 @@ public class Car {
 
     private String model;
 
-    private String licensePlate;
-
     private int carYear;
 
     private String color;
