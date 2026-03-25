@@ -13,7 +13,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = CustomerService.this.customerRepository;
+        this.customerRepository = customerRepository;
     }
 
     public List<Customer> findAllCustomers(int page, int size) {

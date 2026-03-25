@@ -2,10 +2,12 @@ package com.carrental.car_service.repositories;
 
 import com.carrental.car_service.entities.Customer;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class CustomerRepositoryImpl implements CustomerRepository {
 
     private final JdbcClient jdbcClient;
