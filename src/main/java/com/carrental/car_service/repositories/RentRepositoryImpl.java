@@ -19,12 +19,22 @@ public class RentRepositoryImpl implements RentRepository {
     @Override
     public Optional<Rent> findById(Long id) {
         return this.jdbcClient
-                .sql("SELECT r.id, r.customer, r.car_id, r.initial_date, r.end_date, r.total_value, " +
-                        "c.name AS customer_name, c.cpf, AS customer_cpf" +
-                        "c.model AS car_model FROM rent r " +
-                        "INNER JOIN customers c ON r.customer_id = c.id " +
-                        "INNER JOIN cars c ON r.car_id = c.id " +
-                        "WHERE r.id = :id"
+                .sql("SELECT \n" +
+                        "    r.id,\n" +
+                        "    r.customer_id,\n" +
+                        "    r.car_id,\n" +
+                        "    r.initial_date,\n" +
+                        "    r.end_date,\n" +
+                        "    r.total_value,\n" +
+                        "\n" +
+                        "    cust.name AS customer_name,\n" +
+                        "    cust.cpf AS customer_cpf,\n" +
+                        "\n" +
+                        "    car.model AS car_model\n" +
+                        "\n" +
+                        "FROM rent r\n" +
+                        "INNER JOIN customers cust ON r.customer_id = cust.id\n" +
+                        "INNER JOIN cars car ON r.car_id = car.id"
                 )
                 .param("id", id)
                 .query(Rent.class)
@@ -34,11 +44,22 @@ public class RentRepositoryImpl implements RentRepository {
     @Override
     public List<Rent> findAll(int size, int offset) {
         return this.jdbcClient
-                .sql("SELECT r.id, r.customer, r.car_id, r.initial_date, r.end_date, r.total_value, " +
-                        "c.name AS customer_name, c.cpf, AS customer_cpf" +
-                        "c.model AS car_model FROM rent r " +
-                        "INNER JOIN customers c ON r.customer_id = c.id " +
-                        "INNER JOIN cars c ON r.car_id = c.id " +
+                .sql("SELECT \n" +
+                        "    r.id,\n" +
+                        "    r.customer_id,\n" +
+                        "    r.car_id,\n" +
+                        "    r.initial_date,\n" +
+                        "    r.end_date,\n" +
+                        "    r.total_value,\n" +
+                        "\n" +
+                        "    cust.name AS customer_name,\n" +
+                        "    cust.cpf AS customer_cpf,\n" +
+                        "\n" +
+                        "    car.model AS car_model\n" +
+                        "\n" +
+                        "FROM rent r\n" +
+                        "INNER JOIN customers cust ON r.customer_id = cust.id\n" +
+                        "INNER JOIN cars car ON r.car_id = car.id " +
                         "LIMIT :size OFFSET :offset"
                 )
                 .param("size", size)
