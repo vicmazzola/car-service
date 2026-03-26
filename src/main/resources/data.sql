@@ -15,8 +15,23 @@ create TABLE IF NOT EXISTS customers (
     email VARCHAR(255)
 );
 
+create TABLE IF NOT EXISTS rent (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    customer_id BIGINT NOT NULL,
+    car_id BIGINT NOT NULL,
+    initial_date DATE,
+    end_date DATE,
+    total_value DECIMAL(10,2),
+    FOREIGN KEY (customer_id) REFERENCES customers(id),
+    FOREIGN KEY (car_id) REFERENCES cars(id)
+);
+
+
 insert into cars (brand, model, car_year, color, daily_price) values
-('Opel', 'Astra', 2012, 'Black', 100.00);
+('Porsche', 'Carrera', 2012, 'Yellow', 100.00);
 
 insert into customers (name, cpf, phone, email) values
 ('Victor', '47116978844', '11974874744', 'victor@gmail.com');
+
+insert into rent(customer_id, car_id, initial_date, end_date, total_value) values
+(1, 1, '2026-10-1', '2026-10-15', 1500.00 )
