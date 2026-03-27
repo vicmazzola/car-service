@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/rent")
+@RequestMapping("/v1/rents")
 public class RentController {
 
     private static final Logger logger = LoggerFactory.getLogger(RentController.class);
