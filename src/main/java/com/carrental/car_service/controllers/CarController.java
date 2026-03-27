@@ -2,6 +2,9 @@ package com.carrental.car_service.controllers;
 
 import com.carrental.car_service.entities.Car;
 import com.carrental.car_service.service.CarService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/cars")
+@Tag(name = "Car", description = "Endpoints for managing car resources (CRUD operations)")
 public class CarController {
 
     private static final Logger logger = LoggerFactory.getLogger(CarController.class);
@@ -26,6 +30,13 @@ public class CarController {
 
     // http://localhost:8080/cars?page=1&&size=10
 
+    @Operation(
+            description = "Retrieve all paginated vehicles",
+            summary = "Get vehicles",
+            responses = {
+                    @ApiResponse(description = "OK", responseCode = "200")
+            }
+    )
     @GetMapping
     public ResponseEntity<List<Car>> findAllCars(
             @RequestParam("page") int page,
