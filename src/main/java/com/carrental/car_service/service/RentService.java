@@ -4,6 +4,7 @@ import com.carrental.car_service.dto.RentRequestDTO;
 import com.carrental.car_service.entities.Rent;
 import com.carrental.car_service.repositories.CarRepository;
 import com.carrental.car_service.repositories.RentRepository;
+import com.carrental.car_service.service.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -28,7 +29,10 @@ public class RentService {
     }
 
     public Optional<Rent> findRentById(Long id) {
-        return this.rentRepository.findById(id);
+
+        return Optional.ofNullable(this.rentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Rent not found")));
+
     }
 
     public void saveRent(RentRequestDTO rent) {
