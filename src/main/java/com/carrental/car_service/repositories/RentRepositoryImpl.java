@@ -34,7 +34,8 @@ public class RentRepositoryImpl implements RentRepository {
                         "\n" +
                         "FROM rent r\n" +
                         "INNER JOIN customers cust ON r.customer_id = cust.id\n" +
-                        "INNER JOIN cars car ON r.car_id = car.id"
+                        "INNER JOIN cars car ON r.car_id = car.id " +
+                        "WHERE r.id = :id"
                 )
                 .param("id", id)
                 .query(Rent.class)
@@ -84,6 +85,7 @@ public class RentRepositoryImpl implements RentRepository {
     public Integer update(Rent rent, Long id) {
         return this.jdbcClient
                 .sql("UPDATE rent SET customer_id = :customer_id, car_id = :car_id, initial_date = :initial_date, end_date = :end_date, total_value = :total_value WHERE id = :id")
+                .param("id", id)
                 .param("customer_id", rent.getCustomerId())
                 .param("car_id", rent.getCarId())
                 .param("initial_date", rent.getInitialDate())
