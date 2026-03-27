@@ -1,5 +1,6 @@
 package com.carrental.car_service.entities;
 
+import com.carrental.car_service.dto.RentRequestDTO;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -30,6 +31,14 @@ public class Rent {
     private LocalDate endDate;
 
     private BigDecimal totalValue;
+
+    public Rent(RentRequestDTO dto, BigDecimal value) {
+        this.customerId = dto.customerId();
+        this.carId = dto.carId();
+        this.initialDate = dto.initialDate();
+        this.endDate = dto.endDate();
+        this.totalValue = value;
+    }
 
 
 }

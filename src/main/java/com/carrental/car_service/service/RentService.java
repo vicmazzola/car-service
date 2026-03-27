@@ -1,10 +1,13 @@
 package com.carrental.car_service.service;
 
+import com.carrental.car_service.dto.RentRequestDTO;
 import com.carrental.car_service.entities.Rent;
+import com.carrental.car_service.repositories.CarRepository;
 import com.carrental.car_service.repositories.RentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,9 +15,11 @@ import java.util.Optional;
 public class RentService {
 
     private final RentRepository rentRepository;
+    private final CarRepository carRepository;
 
-    public RentService(RentRepository rentRepository) {
+    public RentService(RentRepository rentRepository, CarRepository carRepository) {
         this.rentRepository = rentRepository;
+        this.carRepository = carRepository;
     }
 
     public List<Rent> findAllRents(int page, int size) {
@@ -26,9 +31,12 @@ public class RentService {
         return this.rentRepository.findById(id);
     }
 
-    public void saveRent(Rent rent) {
-        var save = this.rentRepository.save(rent);
-        Assert.state(save == 1, "Error when trying to save rent" + rent.getCustomerName());
+    public void saveRent(RentRequestDTO rent) {
+        var rentEntity = calculateRent(rent);
+
+        var save = this.rentRepository.save(rentEntity);
+
+        Assert.state(save == 1, "Error when trying to save rent for customerId=" + rent.customerId());
     }
 
     public void updateRent(Rent rent, Long id) {
@@ -46,5 +54,15 @@ public class RentService {
         if (delete == 0) {
             throw new RuntimeException("Rent not found");
         }
+    }
+
+    private Rent calculateRent(RentRequestDTO dto) {
+        var car = this.carRepository.findById(dto.carId())
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        var daysCount = BigDecimal.valueOf(dto.endDate().getDayOfYear() - dto.initialDate().getDayOfYear());
+        var value = car.getDailyPrice().multiply(daysCount);
+
+        return new Rent(dto, value);
     }
 }

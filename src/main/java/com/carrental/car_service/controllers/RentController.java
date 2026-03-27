@@ -1,5 +1,6 @@
 package com.carrental.car_service.controllers;
 
+import com.carrental.car_service.dto.RentRequestDTO;
 import com.carrental.car_service.entities.Rent;
 import com.carrental.car_service.service.RentService;
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public class RentController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> saveRent(@RequestBody Rent rent) {
+    public ResponseEntity<Void> saveRent(@RequestBody RentRequestDTO rent) {
         logger.info("POST -> /rent/");
 
         this.rentService.saveRent(rent);
